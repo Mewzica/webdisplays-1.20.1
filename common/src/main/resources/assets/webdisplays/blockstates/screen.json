@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "haste=false,emitting=false": {
+      "model": "webdisplays:block/screen_item"
+    },
+    "haste=false,emitting=true": {
+      "model": "webdisplays:block/screen_item"
+    },
+    "haste=true,emitting=false": {
+      "model": "webdisplays:block/screen_item"
+    },
+    "haste=true,emitting=true": {
+      "model": "webdisplays:block/screen_item"
+    }
+  }
+}

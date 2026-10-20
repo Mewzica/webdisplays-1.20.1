@@ -1,0 +1,5 @@
+// NeoForge 1.20.1 (47.1.x) is a fork of Forge 47.1 and still ships the Forge userdev format,
+// so it goes through Loom's forge platform with the net.neoforged:forge artifact.
+dependencies {
+    forge "net.neoforged:forge:${rootProject.neoforge_version}"
+}

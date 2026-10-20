@@ -1,0 +1,32 @@
+modLoader = "javafml"
+loaderVersion = "[47,)"
+license = "LGPL-2.1"
+issueTrackerURL = "https://github.com/Mewzica/webdisplays-1.20.1/issues"
+
+[[mods]]
+modId = "webdisplays"
+version = "${version}"
+displayName = "WebDisplays"
+authors = "montoyo, Mewzica"
+description = '''Browse the web on huge screens in Minecraft. Requires MCEF.'''
+
+[[dependencies.webdisplays]]
+modId = "forge"
+mandatory = true
+versionRange = "[${forge_version},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.webdisplays]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1,1.21)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.webdisplays]]
+modId = "mcef"
+mandatory = true
+versionRange = "[${mcef_version},)"
+ordering = "NONE"
+side = "BOTH"

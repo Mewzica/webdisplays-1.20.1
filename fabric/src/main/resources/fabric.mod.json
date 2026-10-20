@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "webdisplays",
+  "version": "${version}",
+  "name": "WebDisplays",
+  "description": "Browse the web on huge screens in Minecraft. Requires MCEF.",
+  "authors": [
+    "montoyo",
+    "Mewzica"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Mewzica/webdisplays-1.20.1",
+    "sources": "https://github.com/Mewzica/webdisplays-1.20.1"
+  },
+  "license": "LGPL-2.1",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.montoyo.wd.fabric.WebDisplaysFabric"
+    ],
+    "client": [
+      "net.montoyo.wd.fabric.WebDisplaysFabricClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${fabric_loader_version}",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "mcef": ">=${mcef_version}"
+  }
+}
