@@ -95,10 +95,12 @@ public final class WDContent {
         UPGRADE = reg.item("upgrade", UpgradeItem::new);
         CRAFT_COMPONENT = reg.item("craft_component", CraftComponentItem::new);
 
-        SOUND_TYPING = reg.sound("keyboardType");
-        SOUND_UPGRADE_ADD = reg.sound("upgradeAdd");
-        SOUND_UPGRADE_DEL = reg.sound("upgradeDel");
-        SOUND_SCREENCFG = reg.sound("screencfgOpen");
+        // Resource locations may only contain [a-z0-9/._-], so the camelCase names the 1.12.2
+        // sounds.json used have to be spelled in snake_case here and in the json.
+        SOUND_TYPING = reg.sound("keyboard_type");
+        SOUND_UPGRADE_ADD = reg.sound("upgrade_add");
+        SOUND_UPGRADE_DEL = reg.sound("upgrade_del");
+        SOUND_SCREENCFG = reg.sound("screencfg_open");
         SOUND_SERVER = reg.sound("server");
         SOUND_IRONIC = reg.sound("ironic");
     }

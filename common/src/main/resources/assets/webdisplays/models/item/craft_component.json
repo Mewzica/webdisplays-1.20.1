@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "webdisplays:item/craftcomp_peripheral"
+    "layer0": "webdisplays:item/peripheral"
   }
 }

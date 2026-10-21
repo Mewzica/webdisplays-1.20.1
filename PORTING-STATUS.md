@@ -42,6 +42,51 @@ Common code never imports a loader class, which is why the same sources build fo
 | GUIs | `UrlScreen`, `ScreenConfigScreen`, `MinePadScreen`, `RedstoneCtrlScreen`, rebuilt on vanilla widgets |
 | Assets | Textures, block models, blockstates, sounds, `mod://` HTML pages, 3 languages converted to 1.20.1 layout |
 
+## Verification
+
+What was actually run, not just compiled:
+
+| Check | Result |
+|---|---|
+| `gradle build` on all three loaders | passes, 6 jars produced |
+| `verify_assets.py` (registry ↔ resources) | passes: blockstates, model parents, textures, item models, translation keys, sound events |
+| `:fabric:runServer` | `Done (11.8s)`, mod loaded as `webdisplays 1.20.1-1.1` |
+| `:forge:runServer` | `Done (13.2s)`, mod loaded as `webdisplays 1.20.1-1.1` |
+| `:neoforge:runServer` | `Done (13.3s)`, mod loaded as `webdisplays 1.20.1-1.1` |
+| Screen block + block entity (RCON) | `setblock … screen[haste=true]` → `data get block` shows `WDScreens: []` |
+| Peripheral variants (RCON) | all four implemented kinds place and serialise (`Channel0..3`, `PadId`) |
+| Block entity lifecycle (RCON) | placing and removing screens/peripherals, redstone signal into the controller, and TNT destroying a screen all run without a stack trace |
+| `config/webdisplays.json` | generated on first launch with the 1.12.2 key names |
+| `:fabric:runClient` | **not verifiable here**: this shell has no display, so MCEF's Swing update window throws `java.awt.HeadlessException` before the main menu. Needs a desktop session. |
+
+The client run is the one gap: model baking, GUI rendering and the CEF browser have not been seen
+in a real window. Everything reachable from the server side has been exercised.
+
+### Bugs the verification caught
+
+Six defects that compiled cleanly but broke at runtime, all fixed:
+
+1. **Fabric platform loaded client classes on the server.** `WebDisplaysFabricPlatform` and
+   `WebDisplaysFabricNet` referenced `ClientTickEvents`, `WorldRenderEvents` and `ClientPlayNetworking`
+   directly, so the dedicated server died in class verification with
+   `Cannot load class net.minecraft.client.player.LocalPlayer in environment type SERVER`. The client
+   half now lives in `WebDisplaysFabricClientEvents` and `WebDisplaysFabricNetClient`, which only the
+   client entrypoint instantiates; the network layer replays the receivers registered before it existed.
+2. **Sound event ids contained capitals.** `keyboardType`, `upgradeAdd`, `upgradeDel` and
+   `screencfgOpen` are not valid `ResourceLocation` paths on 1.20.1. Renamed to `keyboard_type`,
+   `upgrade_add`, `upgrade_del`, `screencfg_open` in both `WDContent` and `sounds.json`.
+3. **Keyboard blockstate pointed at an item model.** `blockstates/peripheral.json` referenced
+   `webdisplays:block/kb_inv`, which does not exist — `kb_inv` is an item model. It now uses
+   `block/kb_left`, matching the 1.12.2 blockstate.
+4. **Peripheral blockstates had no rotation.** All 24 variants used the same unrotated model, so every
+   peripheral faced the same way. The `y` rotations from the 1.12.2 blockstate are restored.
+5. **Two item models pointed at textures that do not exist.** `craft_component.json` asked for
+   `item/craftcomp_peripheral` and `upgrade.json` for `item/craftcomp_upgrade`; the actual files are
+   `item/peripheral` and `item/upgrade`.
+6. **Every plain item was missing its translation key.** The language files still used the 1.12.2
+   `item.webdisplays.<name>.name` form, which 1.20.1 does not read. The seven affected items now have
+   proper `item.webdisplays.<name>` keys, and the dead `tile.*` keys were dropped.
+
 ## Deliberate design changes
 
 These are not bugs; they are the places where a 1:1 translation is impossible or unwise.

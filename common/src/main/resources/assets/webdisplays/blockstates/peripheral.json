@@ -1,76 +1,33 @@
 {
   "variants": {
-    "kind=keyboard,facing=north": {
-      "model": "webdisplays:block/kb_inv"
-    },
-    "kind=keyboard,facing=south": {
-      "model": "webdisplays:block/kb_inv"
-    },
-    "kind=keyboard,facing=west": {
-      "model": "webdisplays:block/kb_inv"
-    },
-    "kind=keyboard,facing=east": {
-      "model": "webdisplays:block/kb_inv"
-    },
-    "kind=ccinterface,facing=north": {
-      "model": "webdisplays:block/ccinterface"
-    },
-    "kind=ccinterface,facing=south": {
-      "model": "webdisplays:block/ccinterface"
-    },
-    "kind=ccinterface,facing=west": {
-      "model": "webdisplays:block/ccinterface"
-    },
-    "kind=ccinterface,facing=east": {
-      "model": "webdisplays:block/ccinterface"
-    },
-    "kind=cointerface,facing=north": {
-      "model": "webdisplays:block/ocinterface"
-    },
-    "kind=cointerface,facing=south": {
-      "model": "webdisplays:block/ocinterface"
-    },
-    "kind=cointerface,facing=west": {
-      "model": "webdisplays:block/ocinterface"
-    },
-    "kind=cointerface,facing=east": {
-      "model": "webdisplays:block/ocinterface"
-    },
-    "kind=remotectrl,facing=north": {
-      "model": "webdisplays:block/rctrl"
-    },
-    "kind=remotectrl,facing=south": {
-      "model": "webdisplays:block/rctrl"
-    },
-    "kind=remotectrl,facing=west": {
-      "model": "webdisplays:block/rctrl"
-    },
-    "kind=remotectrl,facing=east": {
-      "model": "webdisplays:block/rctrl"
-    },
-    "kind=redstonectrl,facing=north": {
-      "model": "webdisplays:block/redctrl"
-    },
-    "kind=redstonectrl,facing=south": {
-      "model": "webdisplays:block/redctrl"
-    },
-    "kind=redstonectrl,facing=west": {
-      "model": "webdisplays:block/redctrl"
-    },
-    "kind=redstonectrl,facing=east": {
-      "model": "webdisplays:block/redctrl"
-    },
-    "kind=server,facing=north": {
-      "model": "webdisplays:block/server"
-    },
-    "kind=server,facing=south": {
-      "model": "webdisplays:block/server"
-    },
-    "kind=server,facing=west": {
-      "model": "webdisplays:block/server"
-    },
-    "kind=server,facing=east": {
-      "model": "webdisplays:block/server"
-    }
+    "kind=keyboard,facing=north": { "model": "webdisplays:block/kb_left", "y": 180 },
+    "kind=keyboard,facing=south": { "model": "webdisplays:block/kb_left" },
+    "kind=keyboard,facing=west": { "model": "webdisplays:block/kb_left", "y": 90 },
+    "kind=keyboard,facing=east": { "model": "webdisplays:block/kb_left", "y": 270 },
+
+    "kind=ccinterface,facing=north": { "model": "webdisplays:block/ccinterface" },
+    "kind=ccinterface,facing=south": { "model": "webdisplays:block/ccinterface", "y": 180 },
+    "kind=ccinterface,facing=west": { "model": "webdisplays:block/ccinterface", "y": 270 },
+    "kind=ccinterface,facing=east": { "model": "webdisplays:block/ccinterface", "y": 90 },
+
+    "kind=cointerface,facing=north": { "model": "webdisplays:block/ocinterface" },
+    "kind=cointerface,facing=south": { "model": "webdisplays:block/ocinterface", "y": 180 },
+    "kind=cointerface,facing=west": { "model": "webdisplays:block/ocinterface", "y": 270 },
+    "kind=cointerface,facing=east": { "model": "webdisplays:block/ocinterface", "y": 90 },
+
+    "kind=remotectrl,facing=north": { "model": "webdisplays:block/rctrl" },
+    "kind=remotectrl,facing=south": { "model": "webdisplays:block/rctrl" },
+    "kind=remotectrl,facing=west": { "model": "webdisplays:block/rctrl" },
+    "kind=remotectrl,facing=east": { "model": "webdisplays:block/rctrl" },
+
+    "kind=redstonectrl,facing=north": { "model": "webdisplays:block/redctrl" },
+    "kind=redstonectrl,facing=south": { "model": "webdisplays:block/redctrl" },
+    "kind=redstonectrl,facing=west": { "model": "webdisplays:block/redctrl" },
+    "kind=redstonectrl,facing=east": { "model": "webdisplays:block/redctrl" },
+
+    "kind=server,facing=north": { "model": "webdisplays:block/server" },
+    "kind=server,facing=south": { "model": "webdisplays:block/server" },
+    "kind=server,facing=west": { "model": "webdisplays:block/server" },
+    "kind=server,facing=east": { "model": "webdisplays:block/server" }
   }
 }

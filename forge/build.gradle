@@ -5,4 +5,7 @@ loom {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
+
+    // Dev-environment only: the MCEF jar built from the sibling project.
+    modRuntimeOnly files(rootProject.file("libs/mcef-runtime-forge.jar"))
 }

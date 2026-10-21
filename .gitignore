@@ -17,3 +17,7 @@ bin/
 # OS
 .DS_Store
 Thumbs.db
+
+# MCEF runtime jars, copied in from the sibling mcef project for `runClient` / `runServer`.
+# Build them with `cd ../mcef && gradle build` and copy each loader's jar here.
+libs/mcef-runtime*.jar

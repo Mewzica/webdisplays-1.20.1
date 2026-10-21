@@ -1,8 +1,6 @@
 package net.montoyo.wd.fabric;
 
 import net.fabricmc.api.EnvType;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -13,12 +11,21 @@ import net.minecraft.server.level.ServerPlayer;
 import net.montoyo.wd.platform.WDNet;
 import net.montoyo.wd.platform.WDPlatform;
 import net.montoyo.wd.platform.WDRegistrar;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Fabric platform. Safe to load on a dedicated server.
+ * <p>
+ * The three client hooks are forwarded to {@link WebDisplaysFabricClientEvents}, which is only
+ * instantiated from the client entrypoint. Keeping the fabric client API out of this class matters:
+ * Fabric's loader throws as soon as a {@code net.fabricmc.fabric.api.client} class is resolved in a
+ * {@code SERVER} environment, even if the method that uses it never runs.
+ */
 public class WebDisplaysFabricPlatform implements WDPlatform {
 
     private final WebDisplaysFabricRegistrar registrar = new WebDisplaysFabricRegistrar();
@@ -26,6 +33,9 @@ public class WebDisplaysFabricPlatform implements WDPlatform {
 
     private final List<Consumer<ServerLevel>> worldSaves = new ArrayList<>();
     private MinecraftServer server;
+
+    @Nullable
+    private WebDisplaysFabricClientEvents clientEvents;
 
     public WebDisplaysFabricPlatform() {
         ServerLifecycleEvents.SERVER_STARTED.register(s -> server = s);
@@ -37,6 +47,15 @@ public class WebDisplaysFabricPlatform implements WDPlatform {
 
             server = null;
         });
+    }
+
+    /** Called from {@link WebDisplaysFabricClient}; never on a dedicated server. */
+    void installClientSide(WebDisplaysFabricClientEvents events) {
+        this.clientEvents = events;
+    }
+
+    WebDisplaysFabricNet netInternal() {
+        return net;
     }
 
     @Override
@@ -71,13 +90,14 @@ public class WebDisplaysFabricPlatform implements WDPlatform {
 
     @Override
     public void onClientTick(Runnable callback) {
-        ClientTickEvents.END_CLIENT_TICK.register(client -> callback.run());
+        if (clientEvents != null)
+            clientEvents.onTick(callback);
     }
 
     @Override
     public void onWorldRender(WorldRenderCallback callback) {
-        WorldRenderEvents.AFTER_TRANSLUCENT.register(ctx ->
-                callback.render(ctx.matrixStack(), ctx.tickDelta(), ctx.camera().getPosition()));
+        if (clientEvents != null)
+            clientEvents.onWorldRender(callback);
     }
 
     @Override

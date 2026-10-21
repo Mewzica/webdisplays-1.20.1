@@ -8,11 +8,11 @@ blocks, and adds the peripherals, upgrades and tools that go with it.
 
 ## Status
 
-| Loader | Build | Artifact |
-|---|---|---|
-| Fabric | passing | `fabric/build/libs/webdisplays-1.20.1-1.1.jar` |
-| Forge 47.x | passing | `forge/build/libs/webdisplays-1.20.1-1.1.jar` |
-| NeoForge 47.1.x | passing | `neoforge/build/libs/webdisplays-1.20.1-1.1.jar` |
+| Loader | Build | Dedicated server | Artifact |
+|---|---|---|---|
+| Fabric | passing | starts, blocks verified | `fabric/build/libs/webdisplays-1.20.1-1.1.jar` |
+| Forge 47.x | passing | starts, blocks verified | `forge/build/libs/webdisplays-1.20.1-1.1.jar` |
+| NeoForge 47.1.x | passing | starts, blocks verified | `neoforge/build/libs/webdisplays-1.20.1-1.1.jar` |
 
 See [PORTING-STATUS.md](PORTING-STATUS.md) for what is ported, what changed, and what is still missing.
 
@@ -48,6 +48,32 @@ cd ../mcef && ./gradlew :fabric:apiJar && cp fabric/build/libs/mcef-1.20.1-1.20-
 
 cd ../webdisplays
 ./gradlew build
+```
+
+## Running from source
+
+`libs/mcef-api.jar` is compile-time only, so the dev runs need a full MCEF jar on the classpath.
+Copy the matching loader's jar in before starting the game (the files are gitignored):
+
+```bash
+cp ../mcef/fabric/build/libs/mcef-1.20.1-1.20.jar   libs/mcef-runtime.jar
+cp ../mcef/forge/build/libs/mcef-1.20.1-1.20.jar    libs/mcef-runtime-forge.jar
+cp ../mcef/neoforge/build/libs/mcef-1.20.1-1.20.jar libs/mcef-runtime-neoforge.jar
+
+./gradlew :fabric:runServer     # or :forge:runServer, :neoforge:runServer, :fabric:runClient
+```
+
+`runClient` needs a real desktop session. MCEF opens a Swing window for its update check, so a
+headless shell (SSH, CI) fails with `java.awt.HeadlessException` before Minecraft reaches the main menu.
+
+## Verifying a build
+
+`verify_assets.py` in the parent directory cross-checks the registry names against the resource
+tree: every blockstate exists, every model and texture a model points at exists, every registered
+item has a model, and every entry has a translation key in all three language files.
+
+```bash
+python ../verify_assets.py
 ```
 
 ## Configuration

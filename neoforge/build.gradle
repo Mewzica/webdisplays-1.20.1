@@ -2,4 +2,7 @@
 // so it goes through Loom's forge platform with the net.neoforged:forge artifact.
 dependencies {
     forge "net.neoforged:forge:${rootProject.neoforge_version}"
+
+    // Dev-environment only: the MCEF jar built from the sibling project.
+    modRuntimeOnly files(rootProject.file("libs/mcef-runtime-neoforge.jar"))
 }

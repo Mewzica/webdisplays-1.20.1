@@ -1,4 +1,9 @@
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+
+    // The MCEF jar built by the sibling project, remapped back to named by Loom.
+    // Only needed to run the game from the dev environment; the published jar declares
+    // MCEF as a regular mod dependency instead.
+    modRuntimeOnly files(rootProject.file("libs/mcef-runtime.jar"))
 }
